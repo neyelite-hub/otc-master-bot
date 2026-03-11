@@ -86,4 +86,4 @@ Força do sinal: {score*25}%
 
             bot.send_message(chat_id=CHAT_ID,text=msg)
 
-    time.sleep(300
+    time.sleep(300)
