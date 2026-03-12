@@ -21,10 +21,11 @@ def analisar(par):
 
     close = df["Close"]
 
+    if isinstance(close, pd.DataFrame):
+        close = close.iloc[:,0]
+
     rsi = ta.momentum.RSIIndicator(close,14).rsi().iloc[-1]
-
     macd = ta.trend.MACD(close).macd_diff().iloc[-1]
-
     ema50 = ta.trend.EMAIndicator(close,50).ema_indicator().iloc[-1]
 
     bb = ta.volatility.BollingerBands(close)
