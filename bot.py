@@ -1,4 +1,3 @@
-
 import yfinance as yf
 import pandas as pd
 import ta
@@ -17,18 +16,23 @@ def analisar(par):
 
     df = yf.download(par, interval="5m", period="1d")
 
-    rsi = ta.momentum.RSIIndicator(df["Close"],14).rsi().iloc[-1]
+    if df.empty or len(df) < 60:
+        return None,0
 
-    macd = ta.trend.MACD(df["Close"]).macd_diff().iloc[-1]
+    close = df["Close"]
 
-    ema50 = ta.trend.EMAIndicator(df["Close"],50).ema_indicator().iloc[-1]
+    rsi = ta.momentum.RSIIndicator(close,14).rsi().iloc[-1]
 
-    bb = ta.volatility.BollingerBands(df["Close"])
+    macd = ta.trend.MACD(close).macd_diff().iloc[-1]
+
+    ema50 = ta.trend.EMAIndicator(close,50).ema_indicator().iloc[-1]
+
+    bb = ta.volatility.BollingerBands(close)
 
     lower = bb.bollinger_lband().iloc[-1]
     upper = bb.bollinger_hband().iloc[-1]
 
-    preco = df["Close"].iloc[-1]
+    preco = close.iloc[-1]
 
     score = 0
 
